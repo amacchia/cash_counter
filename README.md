@@ -1,7 +1,10 @@
-# cash_counter
+# Cash Counter
 
 A new Flutter project for counting cash.
 
 Future enhancements:
 - Include coin countings
 - Include other currencies
+
+## Example
+![Screenshot](flutter_01.png)
