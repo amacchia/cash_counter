@@ -17,16 +17,14 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
+      # - name: Install dependencies
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
 
       - name: Install Flutter
         run: |
-          curl -o flutter.tar.xz https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_stable.tar.xz
-          tar xf flutter.tar.xz
-          echo "$PWD/flutter/bin" >> $GITHUB_PATH
+          sudo snap install flutter --classic
 
       - name: Verify Flutter Version
         run: flutter --version
