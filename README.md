@@ -3,6 +3,9 @@
 A new Flutter project for counting cash.
 
 Future enhancements:
+- Include clear all button
+- Include tests
+- Include settings page to set light/dark theme
 - Include coin countings
 - Include other currencies
 

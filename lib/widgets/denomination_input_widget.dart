@@ -35,9 +35,16 @@ class DenominationInput extends StatelessWidget {
       currencyCards.add(denominationCard);
     }
 
+    final screenWidth = MediaQuery.of(context).size.width;
+    debugPrint("Screen width: $screenWidth");
+    final isLargeScreen = screenWidth > 600;
+    final crossAxisCount = isLargeScreen ? 3 : 2;
+
     return GridView.count(
-      crossAxisCount: 2,
+      crossAxisCount: crossAxisCount,
       padding: EdgeInsets.all(8.0),
+      mainAxisSpacing: 8.0,
+      crossAxisSpacing: 8.0,
       children: currencyCards,
     );
   }
