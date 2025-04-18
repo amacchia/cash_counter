@@ -29,23 +29,52 @@ class DenominationInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<CurrencyCard> currencyCards = _buildCurrencyCards();
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isLargeScreen = screenWidth > 600;
+    final crossAxisCount = _getItemsInRow(isLargeScreen);
+    final maxWidth = _getMaxWidth(isLargeScreen);
+
+    return Padding(
+        padding: EdgeInsets.all(8.0),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: maxWidth,
+          ),
+          child: GridView.builder(
+            itemCount: currencyCards.length,
+            itemBuilder: (context, index) => currencyCards[index],
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
+              crossAxisSpacing: 8.0,
+              mainAxisSpacing: 8.0,
+            ),
+          ),
+        ));
+  }
+
+  List<CurrencyCard> _buildCurrencyCards() {
     final List<CurrencyCard> currencyCards = [];
+
     for (final denomination in usdCashDenominations) {
       final denominationCard = CurrencyCard(denomination, calculateTotal);
       currencyCards.add(denominationCard);
     }
 
-    final screenWidth = MediaQuery.of(context).size.width;
-    debugPrint("Screen width: $screenWidth");
-    final isLargeScreen = screenWidth > 600;
-    final crossAxisCount = isLargeScreen ? 3 : 2;
+    return currencyCards;
+  }
 
-    return GridView.count(
-      crossAxisCount: crossAxisCount,
-      padding: EdgeInsets.all(8.0),
-      mainAxisSpacing: 8.0,
-      crossAxisSpacing: 8.0,
-      children: currencyCards,
-    );
+  int _getItemsInRow(bool isLargeScreen) {
+    final itemsInLargeScreenRow = 3;
+    final itemsInSmallScreenRow = 2;
+
+    return isLargeScreen ? itemsInLargeScreenRow : itemsInSmallScreenRow;
+  }
+
+  double _getMaxWidth(bool isLargeScreen) {
+    final smallScreenSidePadding = double.infinity;
+    final largeScreenSidePadding = 1200.0;
+
+    return isLargeScreen ? largeScreenSidePadding : smallScreenSidePadding;
   }
 }
