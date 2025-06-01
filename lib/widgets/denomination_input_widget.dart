@@ -27,6 +27,13 @@ class DenominationInput extends StatelessWidget {
     updateTotalCountDisplay(total);
   }
 
+  void clearAll() {
+    for (final denomination in usdCashDenominations) {
+      denomination.total = 0;
+    }
+    updateTotalCountDisplay(0);
+  }
+
   @override
   Widget build(BuildContext context) {
     List<CurrencyCard> currencyCards = _buildCurrencyCards();
@@ -36,21 +43,50 @@ class DenominationInput extends StatelessWidget {
     final maxWidth = _getMaxWidth(isLargeScreen);
 
     return Padding(
-        padding: EdgeInsets.all(8.0),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            maxWidth: maxWidth,
-          ),
-          child: GridView.builder(
-            itemCount: currencyCards.length,
-            itemBuilder: (context, index) => currencyCards[index],
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: crossAxisCount,
-              crossAxisSpacing: 8.0,
-              mainAxisSpacing: 8.0,
+      padding: EdgeInsets.all(8.0),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: maxWidth,
+              ),
+              child: GridView.builder(
+                shrinkWrap:
+                    true, // Ensures the GridView only takes the space it needs
+                physics:
+                    NeverScrollableScrollPhysics(), // Prevents internal scrolling
+                itemCount: currencyCards.length,
+                itemBuilder: (context, index) => currencyCards[index],
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: crossAxisCount,
+                  crossAxisSpacing: 8.0,
+                  mainAxisSpacing: 8.0,
+                ),
+              ),
             ),
-          ),
-        ));
+            SizedBox(height: 16.0),
+            ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: maxWidth),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ElevatedButton(
+                    onPressed: clearAll,
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(200, 60),
+                      textStyle: TextStyle(fontSize: 18),
+                      foregroundColor: Colors.white,
+                    ),
+                    child: const Text("Clear All"),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   List<CurrencyCard> _buildCurrencyCards() {
@@ -72,9 +108,9 @@ class DenominationInput extends StatelessWidget {
   }
 
   double _getMaxWidth(bool isLargeScreen) {
-    final smallScreenSidePadding = double.infinity;
-    final largeScreenSidePadding = 1200.0;
+    final smallScreenWidth = double.infinity;
+    final largeScreenWidth = 1200.0;
 
-    return isLargeScreen ? largeScreenSidePadding : smallScreenSidePadding;
+    return isLargeScreen ? largeScreenWidth : smallScreenWidth;
   }
 }
