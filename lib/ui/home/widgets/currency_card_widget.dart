@@ -1,13 +1,15 @@
+import 'package:cash_counter/models/usd_denominations.dart';
+import 'package:cash_counter/ui/home/view_models/home_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../models/denomination.dart';
-
 class CurrencyCard extends StatelessWidget {
-  final Denomination denomination;
-  final Function() calculateTotal;
+  final USDDenomination denominationType;
+  final TextEditingController _controller;
+  final HomeViewModel viewModel;
 
-  const CurrencyCard(this.denomination, this.calculateTotal, {super.key});
+  const CurrencyCard(this.denominationType, this._controller,
+      {super.key, required this.viewModel});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,7 @@ class CurrencyCard extends StatelessWidget {
         Padding(
           padding: EdgeInsets.all(8.0),
           child: Text(
-            denomination.title,
+            viewModel.getDenominationTitle(denominationType),
             style: Theme.of(context).textTheme.headlineMedium,
             textAlign: TextAlign.left,
           ),
@@ -25,6 +27,7 @@ class CurrencyCard extends StatelessWidget {
         Padding(
             padding: EdgeInsets.all(24.0),
             child: TextField(
+              controller: _controller,
               keyboardType: TextInputType.number,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headlineSmall,
@@ -43,8 +46,6 @@ class CurrencyCard extends StatelessWidget {
   }
 
   void _onChanged(String value) {
-    int count = int.tryParse(value) ?? 0;
-    denomination.total = count * denomination.multiplier;
-    calculateTotal();
+    viewModel.updateDenomination(denominationType, value);
   }
 }
