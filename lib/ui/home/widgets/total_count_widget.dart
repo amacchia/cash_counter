@@ -15,10 +15,31 @@ class TotalCountWidget extends StatelessWidget {
     final formattedTotal = currencyFormatter.format(total);
 
     return Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Text(
-          "Total $formattedTotal",
-          style: Theme.of(context).textTheme.headlineLarge,
-        ));
+      padding: EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Total ',
+            style: Theme.of(context).textTheme.headlineLarge,
+          ),
+          AnimatedSwitcher(
+            duration: Duration(milliseconds: 100),
+            transitionBuilder: (child, animation) => SlideTransition(
+              position: Tween<Offset>(
+                begin: Offset(0.0, 1.0),
+                end: Offset.zero,
+              ).animate(animation),
+              child: child,
+            ),
+            child: Text(
+              formattedTotal,
+              key: ValueKey(total),
+              style: Theme.of(context).textTheme.headlineLarge,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
