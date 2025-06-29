@@ -22,7 +22,8 @@ void main() {
         ),
       );
 
-      expect(find.text('Total \$0.00'), findsOneWidget);
+      expect(find.text('Total '), findsOneWidget);
+      expect(find.text('\$0.00'), findsOneWidget);
     });
 
     testWidgets('displays formatted total when totalCount is positive',
@@ -35,7 +36,8 @@ void main() {
         ),
       );
 
-      expect(find.text('Total \$1,234.00'), findsOneWidget);
+      expect(find.text('Total '), findsOneWidget);
+      expect(find.text('\$1,234.00'), findsOneWidget);
     });
   });
 }
