@@ -31,6 +31,8 @@ jobs:
         run: flutter --version
       - name: Install Flutter Packages
         run: flutter pub get
+      - name: Run tests
+        run: flutter test
       - name: Web build
         run: flutter build web --release --base-href /cash_counter/
       - name: Setup Pages
@@ -51,4 +53,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        
+
